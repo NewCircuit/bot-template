@@ -1,6 +1,10 @@
+import { Logger, LogLevel } from '@sapphire/framework';
 import { Config } from './config';
-import { pool } from './database';
+
+import { Db } from './database';
 
 export const CONFIG = Config.getConfig();
 
-export const DB = pool;
+export const DB = new Db(CONFIG);
+
+export const LOGGER = new Logger(LogLevel.Info);

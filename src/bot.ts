@@ -1,10 +1,10 @@
-import { LogLevel, SapphireClient } from '@sapphire/framework';
-import { CONFIG } from './globals';
+import { SapphireClient } from '@sapphire/framework';
+import { CONFIG, LOGGER } from './globals';
 import * as utils from './utils';
 
-const bot = new SapphireClient({
+export const bot = new SapphireClient({
   logger: {
-    level: LogLevel.Info,
+    instance: LOGGER,
   },
   defaultPrefix: CONFIG.bot.prefix,
   id: CONFIG.bot.id,

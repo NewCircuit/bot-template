@@ -1,19 +1,23 @@
 import { Pool } from 'pg';
-import { CONFIG } from '../globals';
-import * as utils from '../utils';
+import { migrate } from 'postgres-migrations';
+import { Config } from '../config';
+import { LOGGER } from '../globals';
 
-export const pool = new Pool({
-  host: CONFIG.database.host,
-  database: CONFIG.database.database,
-  port: CONFIG.database.port,
-  user: CONFIG.database.user,
-  password: CONFIG.database.password,
-  max: CONFIG.database.max,
-});
+export class Db extends Pool {
+  constructor(config: Config) {
+    super({
+      host: config.database.host,
+      database: config.database.database,
+      port: config.database.port,
+      user: config.database.user,
+      password: config.database.password,
+    });
 
-pool.connect(async (error: Error) => {
-  if (error) {
-    utils.getLoggerModule('pool')
-      .error('Error acquiring client', error.stack);
+    super.connect().then((client) => {
+      migrate({ client }, './migrations')
+        . then((r) => r);
+    }).catch((err) => {
+      LOGGER.error('Error acquiring client', err.stack);
+    });
   }
-});
+}

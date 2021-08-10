@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Conf from './conf';
+import { LOGGER } from '../globals';
 
 /**
  * This validates the config.yml recursively
@@ -21,7 +22,7 @@ export default function validate<T extends Conf>(ref: T, obj: any): void {
       continue;
     }
     if (!(objKeys.includes(key))) {
-      console.log(
+      LOGGER.error(
         `${ref.name} is missing ${key} attribute.`,
       );
       hasMissingAttr = true;
