@@ -1,3 +1,12 @@
+# IDE
+.idea
+
+# Config
+config.yml
+
+# Output
+build
+
 # Logs
 logs
 *.log
